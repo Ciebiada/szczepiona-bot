@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 
-// FILL_IN the details with the actual tokens taken from from developer tools
+// FILL_IN the details with the actual tokens taken from chrome developer tools
 
 const jazda = () => {
   return fetch("https://pacjent.erejestracja.ezdrowie.gov.pl/api/calendarSlots/find", {
