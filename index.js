@@ -48,10 +48,12 @@ const jazda = () => {
           "body": "{\"prescriptionId\":\"FILL_IN\"}",
           "method": "POST",
           "mode": "cors"
-        }).then(res => res.json()).then(body => {
-          console.log(body)
-          process.exit()
         })
+          .then(res => res.json())
+          .then(body => {
+            console.log(body)
+            process.exit()
+          })
       }
     })
 }
