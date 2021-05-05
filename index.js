@@ -1,11 +1,16 @@
 const fetch = require('node-fetch')
 
-// fill in with values taken from google developer tools
+// Fill in with actual values from chrome developer tools
 const xcsrftoken = ''
-const prescriptionId = ''
 const cookie = ''
+const prescriptionId = ''
 
-const jazda = () =>
+const requests = [
+  `{\"dayRange\":{\"from\":\"2021-05-06\",\"to\":\"2021-05-07\"},\"geoId\":\"1261011\",\"hourRange\":{\"from\":\"16:00\",\"to\":\"20:00\"},\"prescriptionId\":\"${prescriptionId}\",\"voiId\":\"12\",\"vaccineTypes\":[\"cov19.pfizer\",\"cov19.moderna\"]}`,
+  `{\"dayRange\":{\"from\":\"2021-05-08\",\"to\":\"2021-05-09\"},\"geoId\":\"1261011\",\"prescriptionId\":\"${prescriptionId}\",\"voiId\":\"12\",\"vaccineTypes\":[\"cov19.pfizer\",\"cov19.moderna\"]}`,
+]
+
+const jazda = (i = 0) =>
   fetch("https://pacjent.erejestracja.ezdrowie.gov.pl/api/calendarSlots/find", {
     "headers": {
       "accept": "application/json, text/plain, */*",
@@ -21,8 +26,7 @@ const jazda = () =>
     },
     "referrer": "https://pacjent.erejestracja.ezdrowie.gov.pl/rezerwacja-wizyty",
     "referrerPolicy": "strict-origin-when-cross-origin",
-    "body": `{\"dayRange\":{\"from\":\"2021-05-05\",\"to\":\"2021-05-09\"},\"geoId\":\"1261011\",\"hourRange\":{\"from\":\"16:00\",\"to\":\"20:00\"},\"prescriptionId\":\"${prescriptionId}\",\"voiId\":\"12\",\"vaccineTypes\":[\"cov19.pfizer\",\"cov19.moderna\"]}`,
-    // "body": `{\"dayRange\":{\"from\":\"2021-05-04\",\"to\":\"2021-05-05\"},\"geoId\":\"1261011\",\"prescriptionId\":\"${prescriptionId}\",\"voiId\":\"12\",\"vaccineTypes\":[\"cov19.pfizer\",\"cov19.moderna\"]}`,
+    "body": requests[i],
     "method": "POST",
     "mode": "cors"
   })
@@ -60,10 +64,10 @@ const jazda = () =>
       }
     })
 
-const check = () => {
-  jazda().then(
+const check = (i = 0) => {
+  jazda(i).then(
     setTimeout(() => {
-      check()
+      check((i + 1) % requests.length)
     }, 2000)
   )
 }
